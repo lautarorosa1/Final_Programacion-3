@@ -25,5 +25,15 @@ namespace Backend_Final.Infrastructure.Repositories
             return await _context.Clientes
                 .AnyAsync(c => c.Email == email && (!excludeId.HasValue || c.Id != excludeId));
         }
+
+        public async Task<List<Cliente>> ObtenerClientesAsync()
+        {
+            return await _context.Clientes.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Cliente?> ObtenerClienteAsync(int id)
+        {
+            return await _context.Clientes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

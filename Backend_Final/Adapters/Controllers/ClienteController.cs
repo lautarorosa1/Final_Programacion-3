@@ -27,5 +27,21 @@ namespace Backend_Final.Adapters.Controllers
 
             return result.ToActionResult();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerClientes()
+        {
+            var result = await _clienteService.ObtenerClientesAsync();
+
+            return result.ToActionResult();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ObtenerClienteID(int id)
+        {
+            var result = await _clienteService.ObtenerClienteAsync(id);
+
+            return result.ToActionResult();
+        }
     }
 }

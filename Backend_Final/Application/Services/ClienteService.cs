@@ -3,6 +3,7 @@ using Backend_Final.Application.DTOs.Cliente;
 using Backend_Final.Application.Services.Interfaces;
 using Backend_Final.Domain.Models;
 using Backend_Final.Infrastructure.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Backend_Final.Application.Services
 {
@@ -31,6 +32,27 @@ namespace Backend_Final.Application.Services
             await _repository.CrearClienteAsync(cliente);
 
             return Result<ResponseClienteDto>.Ok(MapToResponse(cliente));
+        }
+
+        public async Task<Result<List<ResponseClienteDto>>> ObtenerClientesAsync()
+        {
+            var clientes = await _repository.ObtenerClientesAsync();
+
+            var response = clientes.Select(MapToResponse).ToList(); ;
+
+            return Result<List<ResponseClienteDto>>.Ok(response);
+        }
+
+        public async Task<Result<ResponseClienteDto>> ObtenerClienteAsync(int id)
+        {
+            var cliente = await _repository.ObtenerClienteAsync(id);
+
+            if (cliente == null)
+                return Result<ResponseClienteDto>.Fail("Cliente no encontrado", ResultType.NotFound);
+
+            var response = MapToResponse(cliente);
+
+            return Result<ResponseClienteDto>.Ok(response);
         }
 
         private static ResponseClienteDto MapToResponse(Cliente cliente)
