@@ -43,5 +43,21 @@ namespace Backend_Final.Adapters.Controllers
 
             return result.ToActionResult();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> EditarCliente(int id, [FromBody] EditarClienteDto dto)
+        {
+            var result = await _clienteService.EditarClienteAsync(id, dto);
+
+            return result.ToActionResult();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> BorrarCliente(int id)
+        {
+            var result = await _clienteService.EliminarClienteAsync(id);
+
+            return result.ToActionResult();
+        }
     }
 }

@@ -5,6 +5,7 @@
         Success,
         NotFound,
         BadRequest,
+        Conflict,
         Error
     }
 }

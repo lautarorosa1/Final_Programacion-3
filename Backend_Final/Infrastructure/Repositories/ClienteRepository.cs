@@ -35,5 +35,17 @@ namespace Backend_Final.Infrastructure.Repositories
         {
             return await _context.Clientes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<bool> EditarClienteAsync(Cliente cliente)
+        {
+            _context.Clientes.Update(cliente);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> EliminarClienteAsync(Cliente cliente)
+        {
+            _context.Clientes.Remove(cliente);
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

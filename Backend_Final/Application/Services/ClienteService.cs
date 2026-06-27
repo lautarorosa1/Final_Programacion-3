@@ -55,6 +55,50 @@ namespace Backend_Final.Application.Services
             return Result<ResponseClienteDto>.Ok(response);
         }
 
+        public async Task<Result<ResponseClienteDto>> EditarClienteAsync(int id, EditarClienteDto dto)
+        {
+            var cliente = await _repository.ObtenerClienteAsync(id);
+
+            if (cliente == null)
+                return Result<ResponseClienteDto>.Fail("Producto no encontrado", ResultType.NotFound);
+
+            if (!string.IsNullOrWhiteSpace(dto.Name))
+                cliente.Name = dto.Name.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.Email))
+            {
+                var existe = await _repository.ExisteEmailAsync(dto.Email, id);
+                if (existe)
+                    return Result<ResponseClienteDto>.Fail("El email ya está registrado",ResultType.Conflict);
+
+                cliente.Email = dto.Email.Trim();
+            }
+
+            var actualizado = await _repository.EditarClienteAsync(cliente);
+
+            if (!actualizado)
+                return Result<ResponseClienteDto>.Fail("No se pudo actualizar el Cliente", ResultType.BadRequest);
+
+            var response = MapToResponse(cliente);
+
+            return Result<ResponseClienteDto>.Ok(response);
+        }
+
+        public async Task<Result<bool>> EliminarClienteAsync(int id)
+        {
+            var cliente = await _repository.ObtenerClienteAsync(id);
+
+            if (cliente == null)
+                return Result<bool>.Fail("Cliente no encontrado", ResultType.NotFound);
+
+            var eliminado = await _repository.EliminarClienteAsync(cliente);
+
+            if (!eliminado)
+                return Result<bool>.Fail("No se pudo eliminar el Cliente", ResultType.BadRequest);
+
+            return Result<bool>.Ok(true);
+        }
+
         private static ResponseClienteDto MapToResponse(Cliente cliente)
         {
             return new ResponseClienteDto

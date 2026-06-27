@@ -9,5 +9,7 @@ namespace Backend_Final.Infrastructure.Repositories.Interfaces
         Task<bool> ExisteEmailAsync(string email, int? excludeId = null);
         Task<List<Cliente>> ObtenerClientesAsync();
         Task<Cliente?> ObtenerClienteAsync(int id);
+        Task<bool> EditarClienteAsync(Cliente cliente);
+        Task<bool> EliminarClienteAsync(Cliente cliente);
     }
 }
