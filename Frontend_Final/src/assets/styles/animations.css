@@ -1,0 +1,23 @@
+/* SIDEBAR */
+.sidebar-enter-active,
+.sidebar-leave-active {
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
+
+.sidebar-enter-from,
+.sidebar-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* VISTAS */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+}
+
