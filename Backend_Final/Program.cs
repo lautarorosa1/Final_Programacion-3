@@ -1,5 +1,9 @@
+using Backend_Final.Application.Services.Interfaces;
+using Backend_Final.Application.Services;
 using Backend_Final.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Backend_Final.Infrastructure.Repositories.Interfaces;
+using Backend_Final.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +30,10 @@ builder.Services.AddCors(options =>
 });
 
 // Services
+builder.Services.AddScoped<IClienteService, ClienteService>();
 
 // Repositories
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
 var app = builder.Build();
 

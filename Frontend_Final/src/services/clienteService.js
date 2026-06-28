@@ -7,8 +7,6 @@ export const clienteService = {
 
   obtenerCliente(id) {return http.get(`${BASE}/${id}`)},
 
-  obtenerEstadoCliente(id) {return http.get(`${BASE}/${id}/estado`)},
-
   crearCliente(cliente) {return http.post(BASE, cliente)},
 
   editarCliente(id, cliente) {return http.patch(`${BASE}/${id}`, cliente)},
