@@ -3,7 +3,6 @@ using Backend_Final.Application.DTOs.Cliente;
 using Backend_Final.Application.Services.Interfaces;
 using Backend_Final.Domain.Models;
 using Backend_Final.Infrastructure.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Backend_Final.Application.Services
 {

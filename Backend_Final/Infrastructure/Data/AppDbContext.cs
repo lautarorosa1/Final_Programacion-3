@@ -10,6 +10,7 @@ namespace Backend_Final.Infrastructure.Data
         {
         }
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Transaccion> Transacciones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -4,6 +4,7 @@ using Backend_Final.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Backend_Final.Infrastructure.Repositories.Interfaces;
 using Backend_Final.Infrastructure.Repositories;
+using Backend_TrabajoFinal.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,11 +30,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Dependencias para CriptoYaService
+builder.Services.AddHttpClient();
+builder.Services.AddMemoryCache();
+
 // Services
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<ITransaccionService, TransaccionService>();
+builder.Services.AddScoped<CriptoYaService>();
 
 // Repositories
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<ITransaccionRepository, TransaccionRepository>();
 
 var app = builder.Build();
 
