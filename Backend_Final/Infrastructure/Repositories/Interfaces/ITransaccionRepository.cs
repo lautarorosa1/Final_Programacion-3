@@ -10,5 +10,7 @@ namespace Backend_Final.Infrastructure.Repositories.Interfaces
 
         Task<List<Transaccion>> ObtenerTransaccionesAsync();
         Task<Transaccion?> ObtenerTransaccionIdAsync(int id);
+        Task<bool> EditarTransaccionAsync(Transaccion transaccion);
+        Task<bool> EliminarTransaccionAsync(Transaccion transaccion);
     }
 }

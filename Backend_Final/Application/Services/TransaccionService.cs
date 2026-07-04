@@ -1,8 +1,10 @@
 ﻿using Backend_Final.Application.Common;
+using Backend_Final.Application.DTOs.Cliente;
 using Backend_Final.Application.DTOs.Transaccion;
 using Backend_Final.Application.Services.Interfaces;
 using Backend_Final.Domain.Models;
 using Backend_Final.Infrastructure.Repositories.Interfaces;
+using Backend_Final.Migrations;
 
 namespace Backend_TrabajoFinal.Application.Services
 {
@@ -110,6 +112,57 @@ namespace Backend_TrabajoFinal.Application.Services
                 Exchange = transaccion.Exchange,
                 FechaHora = transaccion.FechaHora
             };
+        }
+
+        public async Task<Result<ResponseTransaccionDto>> EditarTransaccionAsync(int id, EditarTransaccionDto dto)
+        {
+            var transaccion = await _repository.ObtenerTransaccionIdAsync(id);
+
+            if (transaccion == null)
+                return Result<ResponseTransaccionDto>.Fail("Transaccion no encontrada", ResultType.NotFound);
+
+            if (dto.MontoARS.HasValue)
+                transaccion.MontoARS = dto.MontoARS.Value;
+
+            if (dto.CantidadCripto.HasValue)
+                transaccion.CantidadCripto = dto.CantidadCripto.Value;
+
+            if (dto.FechaHora.HasValue)
+                transaccion.FechaHora = dto.FechaHora.Value;
+
+            if (!string.IsNullOrWhiteSpace(dto.TipoTransaccion))
+            {
+                var tipo = dto.TipoTransaccion.Trim().ToLower();
+
+                if (tipo != "purchase" && tipo != "sale")
+                    return Result<ResponseTransaccionDto>.Fail("Tipo de transacción inválido", ResultType.BadRequest);
+
+                transaccion.TipoTransaccion = tipo;
+            }
+
+            var actualizado = await _repository.EditarTransaccionAsync(transaccion);
+
+            if (!actualizado)
+                return Result<ResponseTransaccionDto>.Fail("No se pudo actualizar la Transaccion", ResultType.BadRequest);
+
+            var response = MapToResponse(transaccion);
+
+            return Result<ResponseTransaccionDto>.Ok(response);
+        }
+
+        public async Task<Result<bool>> EliminarTransaccionAsync(int id)
+        {
+            var transaccion = await _repository.ObtenerTransaccionIdAsync(id);
+
+            if (transaccion == null)
+                return Result<bool>.Fail("Transaccion no encontrada", ResultType.NotFound);
+
+            var eliminado = await _repository.EliminarTransaccionAsync(transaccion);
+
+            if (!eliminado)
+                return Result<bool>.Fail("No se pudo eliminar la Transaccion", ResultType.BadRequest);
+
+            return Result<bool>.Ok(true);
         }
 
         // MÉTODOS PRIVADOS

@@ -43,5 +43,21 @@ namespace Backend_Final.Adapters.Controllers
 
             return result.ToActionResult();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> EditarTransaccion(int id, [FromBody] EditarTransaccionDto dto)
+        {
+            var result = await _transaccionService.EditarTransaccionAsync(id, dto);
+
+            return result.ToActionResult();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> BorrarTransaccion(int id)
+        {
+            var result = await _transaccionService.EliminarTransaccionAsync(id);
+
+            return result.ToActionResult();
+        }
     }
 }

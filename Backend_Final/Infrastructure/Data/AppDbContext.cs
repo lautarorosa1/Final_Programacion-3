@@ -17,6 +17,12 @@ namespace Backend_Final.Infrastructure.Data
             modelBuilder.Entity<Cliente>() //Email unico
             .HasIndex(c => c.Email)
             .IsUnique();
+
+            modelBuilder.Entity<Transaccion>()
+                .HasOne(t => t.Cliente)
+                .WithMany(c => c.Transacciones)
+                .HasForeignKey(t => t.ClienteId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

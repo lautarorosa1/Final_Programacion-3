@@ -59,7 +59,7 @@ namespace Backend_Final.Application.Services
             var cliente = await _repository.ObtenerClienteAsync(id);
 
             if (cliente == null)
-                return Result<ResponseClienteDto>.Fail("Producto no encontrado", ResultType.NotFound);
+                return Result<ResponseClienteDto>.Fail("Cliente no encontrado", ResultType.NotFound);
 
             if (!string.IsNullOrWhiteSpace(dto.Name))
                 cliente.Name = dto.Name.Trim();
