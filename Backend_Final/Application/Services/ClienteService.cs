@@ -104,7 +104,8 @@ namespace Backend_Final.Application.Services
             {
                 Id = cliente.Id,
                 Name = cliente.Name,
-                Email = cliente.Email
+                Email = cliente.Email,
+                CantidadTransacciones = cliente.Transacciones.Count
             };
         }
     }

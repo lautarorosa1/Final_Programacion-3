@@ -28,12 +28,18 @@ namespace Backend_Final.Infrastructure.Repositories
 
         public async Task<List<Cliente>> ObtenerClientesAsync()
         {
-            return await _context.Clientes.AsNoTracking().ToListAsync();
+            return await _context.Clientes
+                .Include(c => c.Transacciones) //uso include porque necesito la cantidad de transacciones... pero si el proyecto crece tengo que encontrar otra forma, esto me trae todo el detalle de cada transaccion (muchos datos = muy pesado)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Cliente?> ObtenerClienteAsync(int id)
         {
-            return await _context.Clientes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Clientes
+                .Include(c => c.Transacciones) //lo mismo con include
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> EditarClienteAsync(Cliente cliente)
