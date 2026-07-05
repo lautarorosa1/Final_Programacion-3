@@ -8,7 +8,7 @@ namespace Backend_Final.Infrastructure.Repositories.Interfaces
         Task<decimal> ObtenerTotalComprado(int clientId, string crypto);
         Task<decimal> ObtenerTotalVendido(int clientId, string crypto);
 
-        Task<List<Transaccion>> ObtenerTransaccionesAsync();
+        Task<List<Transaccion>> ObtenerTransaccionesAsync(int? clienteId);
         Task<Transaccion?> ObtenerTransaccionIdAsync(int id);
         Task<bool> EditarTransaccionAsync(Transaccion transaccion);
         Task<bool> EliminarTransaccionAsync(Transaccion transaccion);

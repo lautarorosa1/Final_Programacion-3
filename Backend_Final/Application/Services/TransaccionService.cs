@@ -78,9 +78,9 @@ namespace Backend_TrabajoFinal.Application.Services
             return Result<ResponseTransaccionDto>.Ok(MapToResponse(transaccion));
         }
 
-        public async Task<Result<List<ResponseTransaccionDto>>> ObtenerTransaccionesAsync()
+        public async Task<Result<List<ResponseTransaccionDto>>> ObtenerTransaccionesAsync(ObtenerTransaccionesFiltroDto dto)
         {
-            var transacciones = await _repository.ObtenerTransaccionesAsync();
+            var transacciones = await _repository.ObtenerTransaccionesAsync(dto?.ClienteId);
 
             var response = transacciones.Select(MapToResponse).ToList();
 
@@ -97,21 +97,6 @@ namespace Backend_TrabajoFinal.Application.Services
             var response = MapToResponse(transaccion);
 
             return Result<ResponseTransaccionDto>.Ok(response);
-        }
-
-        private static ResponseTransaccionDto MapToResponse(Transaccion transaccion)
-        {
-            return new ResponseTransaccionDto
-            {
-                Id = transaccion.Id,
-                CodigoCripto = transaccion.CodigoCripto,
-                TipoTransaccion = transaccion.TipoTransaccion,
-                ClienteId = transaccion.ClienteId,
-                CantidadCripto = transaccion.CantidadCripto,
-                MontoARS = transaccion.MontoARS,
-                Exchange = transaccion.Exchange,
-                FechaHora = transaccion.FechaHora
-            };
         }
 
         public async Task<Result<ResponseTransaccionDto>> EditarTransaccionAsync(int id, EditarTransaccionDto dto)
@@ -165,7 +150,22 @@ namespace Backend_TrabajoFinal.Application.Services
             return Result<bool>.Ok(true);
         }
 
-        // MÉTODOS PRIVADOS
+        private static ResponseTransaccionDto MapToResponse(Transaccion transaccion)
+        {
+            return new ResponseTransaccionDto
+            {
+                Id = transaccion.Id,
+                CodigoCripto = transaccion.CodigoCripto,
+                TipoTransaccion = transaccion.TipoTransaccion,
+                ClienteId = transaccion.ClienteId,
+                CantidadCripto = transaccion.CantidadCripto,
+                MontoARS = transaccion.MontoARS,
+                Exchange = transaccion.Exchange,
+                FechaHora = transaccion.FechaHora
+            };
+        }
+
+        // OTROS MÉTODOS PRIVADOS
 
         private async Task<decimal> CalcularSaldo(int clientId, string crypto)
         {

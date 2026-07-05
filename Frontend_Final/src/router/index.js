@@ -37,6 +37,30 @@ const routes = [
         component: () => import('@/views/clientes/EditarCliente.vue'),
         props: true
       },
+
+      // Transacciones
+      {
+        path: 'nueva-transaccion',
+        name: 'nueva-transaccion',
+        component: () => import('@/views/transacciones/NuevaTransaccion.vue')
+      },
+      {
+        path: 'historial-movimientos',
+        name: 'historial-movimientos',
+        component: () => import('@/views/transacciones/HistorialTransacciones.vue')
+      },
+      {
+        path: 'transaccion/:id',
+        name: 'ver-transaccion',
+        component: () => import('@/views/transacciones/VerTransaccion.vue'),
+        props: true
+      },
+      {
+        path: 'editar-transaccion/:id',
+        name: 'editar-transaccion',
+        component: () => import('@/views/transacciones/EditarTransaccion.vue'),
+        props: true
+      }
     ]
   }
 ]

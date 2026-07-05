@@ -43,10 +43,14 @@ namespace Backend_Final.Infrastructure.Repositories
             return total ?? 0;
         }
 
-        public async Task<List<Transaccion>> ObtenerTransaccionesAsync()
+        public async Task<List<Transaccion>> ObtenerTransaccionesAsync(int? clienteId)
         {
-            return await _context.Transacciones.AsNoTracking().ToListAsync();
+            var query = _context.Transacciones.AsQueryable();
 
+            if (clienteId.HasValue) //FILTRO POR CLIENTE
+                query = query.Where(t => t.ClienteId == clienteId.Value);
+
+            return await query.ToListAsync();
         }
 
         public async Task<Transaccion?> ObtenerTransaccionIdAsync(int id)

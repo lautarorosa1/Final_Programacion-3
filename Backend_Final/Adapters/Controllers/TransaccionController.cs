@@ -1,6 +1,7 @@
 ﻿using Backend_Final.Application.Common.Extensions;
 using Backend_Final.Application.DTOs.Transaccion;
 using Backend_Final.Application.Services.Interfaces;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Final.Adapters.Controllers
@@ -29,9 +30,9 @@ namespace Backend_Final.Adapters.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObtenerTransacciones()
+        public async Task<IActionResult> ObtenerTransacciones([FromQuery] ObtenerTransaccionesFiltroDto dto)
         {
-            var result = await _transaccionService.ObtenerTransaccionesAsync();
+            var result = await _transaccionService.ObtenerTransaccionesAsync(dto);
 
             return result.ToActionResult();
         }
