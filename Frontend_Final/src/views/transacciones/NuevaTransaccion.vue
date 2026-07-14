@@ -16,6 +16,7 @@ const exchangeSeleccionado = ref('')
 const usarMejorExchange = ref(true)
 
 const clientes = ref([])
+const ranking = ref([])
 
 const mensaje = ref('')
 const mensajeClase = ref('')
@@ -41,10 +42,40 @@ const cargarClientes = async () => {
   }
 }
 
+const cargarRanking = async () => {
+  try {
+    // 🔴 IMPORTANTE: no llamar si no hay datos
+    if (!codigoCripto.value || !tipoTransaccion.value) {
+      ranking.value = []
+      exchangeSeleccionado.value = ''
+      return
+    }
+
+    const res = await transaccionService.obtenerRanking(
+      codigoCripto.value,
+      tipoTransaccion.value
+    )
+
+    ranking.value = Array.isArray(res) ? res : []
+
+    // ✅ solo autoselecciona si corresponde
+    if (usarMejorExchange.value && ranking.value.length) {
+      exchangeSeleccionado.value = ranking.value[0]?.exchange || ''
+    } else {
+      exchangeSeleccionado.value = ''
+    }
+
+  } catch (err) {
+    ranking.value = []
+    exchangeSeleccionado.value = ''
+    console.error(err)
+  }
+}
+
 // =====================
 // WATCH
 // =====================
-watch([codigoCripto, tipoTransaccion, usarMejorExchange])
+watch([codigoCripto, tipoTransaccion, usarMejorExchange], cargarRanking)
 
 // =====================
 // VALIDACIONES
@@ -86,6 +117,7 @@ const resetForm = () => {
   tipoTransaccion.value = '' // 👈 antes purchase (mal)
   exchangeSeleccionado.value = ''
   usarMejorExchange.value = true
+  ranking.value = []
 }
 
 // =====================
@@ -213,6 +245,53 @@ onMounted(() => {
       >
         {{ mensaje }}
       </p>
+    </div>
+
+    <!-- RANKING -->
+    <div class="table-card">
+
+      <div class="table-header">
+        <h3>Mejores opciones</h3>
+        <p>Ranking de exchanges según precio</p>
+      </div>
+
+      <div v-if="ranking.length" class="table-wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Exchange</th>
+              <th>
+                {{ tipoTransaccion === 'purchase' ? 'Compra' : 'Venta' }}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              v-for="(r, index) in ranking"
+              :key="r.exchange"
+              :class="{ mejor: index === 0 }"
+            >
+              <td>
+                {{ r.exchange }}
+                <span v-if="index === 0" class="badge badge--best">
+                  Mejor
+                </span>
+              </td>
+
+              <td>
+                ${{ tipoTransaccion === 'purchase'
+                  ? $formatoARS(r.precioCompra)
+                  : $formatoARS(r.precioVenta) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div v-else class="empty-state">
+        <p>No hay datos disponibles</p>
+      </div>
 
     </div>
   </section>

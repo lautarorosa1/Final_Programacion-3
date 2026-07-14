@@ -1,7 +1,6 @@
 ﻿using Backend_Final.Application.Common.Extensions;
 using Backend_Final.Application.DTOs.Transaccion;
 using Backend_Final.Application.Services.Interfaces;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_Final.Adapters.Controllers
@@ -11,11 +10,14 @@ namespace Backend_Final.Adapters.Controllers
     public class TransaccionController : ControllerBase
     {
         private readonly ITransaccionService _transaccionService;
+        private readonly CriptoYaService _criptoYaService;
 
         public TransaccionController(
-            ITransaccionService transaccionService)
+            ITransaccionService transaccionService,
+            CriptoYaService criptoYaService)
         {
             _transaccionService = transaccionService;
+            _criptoYaService = criptoYaService;
         }
 
         [HttpPost]
@@ -57,6 +59,14 @@ namespace Backend_Final.Adapters.Controllers
         public async Task<IActionResult> BorrarTransaccion(int id)
         {
             var result = await _transaccionService.EliminarTransaccionAsync(id);
+
+            return result.ToActionResult();
+        }
+
+        [HttpGet("ranking")]
+        public async Task<IActionResult> ObtenerRanking(string crypto, string tipo)
+        {
+            var result = await _criptoYaService.ObtenerRanking(crypto, tipo);
 
             return result.ToActionResult();
         }

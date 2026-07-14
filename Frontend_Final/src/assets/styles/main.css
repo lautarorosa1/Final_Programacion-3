@@ -14,5 +14,6 @@
 
 @import './pages/home.css';
 @import './pages/detalle.css';
+@import './pages/transacciones.css';
 
 @import './animations.css';

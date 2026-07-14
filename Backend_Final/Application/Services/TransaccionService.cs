@@ -1,10 +1,8 @@
 ﻿using Backend_Final.Application.Common;
-using Backend_Final.Application.DTOs.Cliente;
 using Backend_Final.Application.DTOs.Transaccion;
 using Backend_Final.Application.Services.Interfaces;
 using Backend_Final.Domain.Models;
 using Backend_Final.Infrastructure.Repositories.Interfaces;
-using Backend_Final.Migrations;
 
 namespace Backend_TrabajoFinal.Application.Services
 {
@@ -56,7 +54,7 @@ namespace Backend_TrabajoFinal.Application.Services
                     return Result<ResponseTransaccionDto>.Fail($"Saldo insuficiente. Disponible: {saldo} {crypto.ToUpper()}", ResultType.BadRequest);
             }
 
-            var precioResult = await ObtenerMejorPrecio(dto.Exchange, crypto, tipo);
+            var precioResult = await ObtenerPrecios(dto.Exchange, crypto, tipo);
             if (!precioResult.Success)
                 return Result<ResponseTransaccionDto>.Fail(precioResult.ErrorMessage, ResultType.BadRequest);
 
@@ -175,7 +173,7 @@ namespace Backend_TrabajoFinal.Application.Services
             return comprado - vendido;
         }
 
-        private async Task<Result<(string exchange, decimal valor)>> ObtenerMejorPrecio(
+        private async Task<Result<(string exchange, decimal valor)>> ObtenerPrecios(
             string? exchange,
             string crypto,
             string tipo)

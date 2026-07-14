@@ -22,6 +22,10 @@ export const transaccionService = {
 
   eliminarTransaccion(id) {
     return http.delete(`${BASE}/${id}`)
+  },
+
+  obtenerRanking(crypto, tipo) {
+    return http.get(`${BASE}/ranking?crypto=${crypto}&tipo=${tipo}`)
   }
 }
 
