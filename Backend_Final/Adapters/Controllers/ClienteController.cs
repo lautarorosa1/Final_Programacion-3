@@ -11,10 +11,12 @@ namespace Backend_Final.Adapters.Controllers
     public class ClienteController : ControllerBase
     {
         private readonly IClienteService _clienteService;
+        private readonly IEstadoClienteService _estadoClienteService;
 
-        public ClienteController(IClienteService clienteService)
+        public ClienteController(IClienteService clienteService, IEstadoClienteService estadoClienteService)
         {
             _clienteService = clienteService;
+            _estadoClienteService = estadoClienteService;
         }
 
         [HttpPost]
@@ -56,6 +58,14 @@ namespace Backend_Final.Adapters.Controllers
         public async Task<IActionResult> BorrarCliente(int id)
         {
             var result = await _clienteService.EliminarClienteAsync(id);
+
+            return result.ToActionResult();
+        }
+
+        [HttpGet("{id}/estado")]
+        public async Task<IActionResult> ObtenerEstadoCliente(int id)
+        {
+            var result = await _estadoClienteService.ObtenerEstadoAsync(id);
 
             return result.ToActionResult();
         }

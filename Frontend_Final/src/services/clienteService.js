@@ -11,5 +11,7 @@ export const clienteService = {
 
   editarCliente(id, cliente) {return http.patch(`${BASE}/${id}`, cliente)},
 
-  eliminarCliente(id) {return http.delete(`${BASE}/${id}`)}
+  eliminarCliente(id) {return http.delete(`${BASE}/${id}`)},
+
+  obtenerEstadoCliente(id) {return http.get(`${BASE}/${id}/estado`)}
 }

@@ -1,4 +1,4 @@
-﻿namespace Backend_Final.Application.DTOs
+﻿namespace Backend_Final.Application.DTOs.Cripto
 {
     public class PrecioCriptoResponseDto
     {

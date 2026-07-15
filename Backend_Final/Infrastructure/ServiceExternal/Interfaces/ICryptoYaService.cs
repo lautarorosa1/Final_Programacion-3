@@ -1,5 +1,5 @@
 ﻿using Backend_Final.Application.Common;
-using Backend_Final.Application.DTOs;
+using Backend_Final.Application.DTOs.Cripto;
 
 namespace Backend_Final.Infrastructure.ServiceExternal.Interfaces
 {

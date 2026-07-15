@@ -37,6 +37,7 @@ builder.Services.AddMemoryCache();
 // Services
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<ITransaccionService, TransaccionService>();
+builder.Services.AddScoped<IEstadoClienteService, EstadoClienteService>();
 builder.Services.AddScoped<CriptoYaService>();
 
 // Repositories
