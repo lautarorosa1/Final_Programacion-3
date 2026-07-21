@@ -65,7 +65,7 @@ function normalizarNumero(valor) {
     )
   }
 
-  // Si NO tiene coma → ya está bien (usa punto decimal)
+  // Si NO tiene coma ya está bien (usa punto decimal)
   return Number(str)
 }
 

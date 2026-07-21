@@ -4,10 +4,8 @@ import { ref, onMounted, watch } from 'vue'
 import { clienteService } from '@/services/clienteService'
 import { transaccionService } from '@/services/transaccionService'
 
-
-// =====================
 // STATE
-// =====================
+
 const clienteId = ref('')
 const codigoCripto = ref('')
 const cantidadCripto = ref('')
@@ -21,18 +19,15 @@ const ranking = ref([])
 const mensaje = ref('')
 const mensajeClase = ref('')
 
-// =====================
 // HELPERS
-// =====================
+
 const setError = (msg, err) => {
   console.error(err)
   mensaje.value = msg
   mensajeClase.value = 'error'
 }
-
-// =====================
 // CARGAS
-// =====================
+
 const cargarClientes = async () => {
   try {
     const res = await clienteService.obtenerClientes()
@@ -44,7 +39,7 @@ const cargarClientes = async () => {
 
 const cargarRanking = async () => {
   try {
-    // 🔴 IMPORTANTE: no llamar si no hay datos
+    // IMPORTANTE: no llamar si no hay datos
     if (!codigoCripto.value || !tipoTransaccion.value) {
       ranking.value = []
       exchangeSeleccionado.value = ''
@@ -58,7 +53,7 @@ const cargarRanking = async () => {
 
     ranking.value = Array.isArray(res) ? res : []
 
-    // ✅ solo autoselecciona si corresponde
+    // solo autoselecciona si corresponde
     if (usarMejorExchange.value && ranking.value.length) {
       exchangeSeleccionado.value = ranking.value[0]?.exchange || ''
     } else {
@@ -71,15 +66,12 @@ const cargarRanking = async () => {
     console.error(err)
   }
 }
-
-// =====================
 // WATCH
-// =====================
+
 watch([codigoCripto, tipoTransaccion, usarMejorExchange], cargarRanking)
 
-// =====================
 // VALIDACIONES
-// =====================
+
 const validarFormulario = () => {
   const errores = []
 
@@ -107,22 +99,20 @@ const validarFormulario = () => {
   return errores
 }
 
-// =====================
 // RESET
-// =====================
+
 const resetForm = () => {
   clienteId.value = ''
   cantidadCripto.value = ''
-  codigoCripto.value = ''   // 👈 antes BTC (mal)
-  tipoTransaccion.value = '' // 👈 antes purchase (mal)
+  codigoCripto.value = ''   
+  tipoTransaccion.value = '' 
   exchangeSeleccionado.value = ''
   usarMejorExchange.value = true
   ranking.value = []
 }
 
-// =====================
 // ENVIAR
-// =====================
+
 const enviarTransaccion = async () => {
   mensaje.value = ''
 
@@ -156,10 +146,8 @@ const enviarTransaccion = async () => {
       mensajeClase.value = 'error'
   }
 }
-
-// =====================
 // INIT
-// =====================
+
 onMounted(() => {
   cargarClientes()
 })

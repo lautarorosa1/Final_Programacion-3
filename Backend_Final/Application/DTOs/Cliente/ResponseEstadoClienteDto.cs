@@ -6,7 +6,6 @@
         public decimal TotalARS { get; set; }
     }
 
-    //AGREGADO - VER
     public class ResumenCriptoDto
     {
         public string Codigo { get; set; } = "";

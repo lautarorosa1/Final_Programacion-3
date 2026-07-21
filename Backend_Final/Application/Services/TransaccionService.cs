@@ -164,7 +164,6 @@ namespace Backend_TrabajoFinal.Application.Services
         }
 
         // OTROS MÉTODOS PRIVADOS
-
         private async Task<decimal> CalcularSaldo(int clientId, string crypto)
         {
             var comprado = await _repository.ObtenerTotalComprado(clientId, crypto);

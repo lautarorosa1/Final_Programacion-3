@@ -37,7 +37,7 @@ namespace Backend_Final.Infrastructure.Repositories
         public async Task<Cliente?> ObtenerClienteAsync(int id)
         {
             return await _context.Clientes
-                .Include(c => c.Transacciones) //lo mismo con include
+                .Include(c => c.Transacciones) 
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }

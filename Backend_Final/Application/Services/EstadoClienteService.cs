@@ -38,13 +38,13 @@ namespace Backend_Final.Application.Services
                 Criptos = new List<ResumenCriptoDto>()
             };
 
-            // 🔹 Agrupar por cripto
+            // Agrupar por cripto
             var agrupadas = transacciones.GroupBy(t => t.CodigoCripto);
 
-            // 🔹 Diccionario para guardar precios (evita repetir llamadas)
+            // Diccionario para guardar precios (evita repetir llamadas)
             var preciosPorCrypto = new Dictionary<string, List<PrecioCriptoResponseDto>>();
 
-            // 🔥 Llamadas paralelas (una por cada cripto)
+            // Llamadas paralelas (una por cada cripto)
             var tareasPrecios = agrupadas.Select(async grupo =>
             {
                 var crypto = grupo.Key;
@@ -55,7 +55,7 @@ namespace Backend_Final.Application.Services
 
             await Task.WhenAll(tareasPrecios);
 
-            // 🔹 Procesar resultados
+            // Procesar resultados
             foreach (var grupo in agrupadas)
             {
                 var crypto = grupo.Key;

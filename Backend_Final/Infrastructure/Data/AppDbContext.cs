@@ -18,7 +18,7 @@ namespace Backend_Final.Infrastructure.Data
             .HasIndex(c => c.Email)
             .IsUnique();
 
-            modelBuilder.Entity<Transaccion>()
+            modelBuilder.Entity<Transaccion>() //Al borrar un cliente se borran sus transacciones
                 .HasOne(t => t.Cliente)
                 .WithMany(c => c.Transacciones)
                 .HasForeignKey(t => t.ClienteId)
